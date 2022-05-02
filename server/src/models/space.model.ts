@@ -1,26 +1,28 @@
-import { PrismaClient } from '@prisma/client';
-import { Space } from '../interfaces/space.interface';
+import {PrismaClient} from '@prisma/client';
+import {SpaceResponse} from '../interfaces/space.interface';
+import {ErrorResponse} from '../interfaces/error.interface';
 
 const prisma = new PrismaClient();
 
 export class SpaceModel {
 
   // creates a single space
-  async createSpace(req: any) {     // TODO ADD TYPE HERE
+  async createSpace(req: any): Promise<SpaceResponse | ErrorResponse> {
       try {
-        console.log(req)
         const { name, owner, description } = req;
-      
-        const space = await prisma.space.create({
+        return await prisma.space.create({
           data: {
             name: name,
             description: description,
             owner: owner,
           },
         });
-        return space;
       } catch (error) {
-          return error;
+        // todo how to handle errors correctly? throw one?
+          console.error(error);
+          return {
+            error: 'Could not create space'
+          }
       }
   };
 
@@ -65,14 +67,14 @@ export class SpaceModel {
 
         allSpaces.push(first);
         allSpaces.push(second);
-        
+
         return allSpaces;
       } catch (error) {
         return error;
       }
   }
 
-  async deleteSpace(id: string) { // TODO ADD TYPE HERE  
+  async deleteSpace(id: string) { // TODO ADD TYPE HERE
     try {
         const space = await prisma.space.delete({
           where: {

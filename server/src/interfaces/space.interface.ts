@@ -1,7 +1,10 @@
 export interface Space {
-    space_id?: number;
     name: string;
     owner: string;
-    description?: string;
-    created_at?: Date;
+    description?: string | null;
+}
+
+export interface SpaceResponse extends Space {
+    space_id: number;
+    created_at: Date | null;
 }
