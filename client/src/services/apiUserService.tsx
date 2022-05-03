@@ -2,14 +2,8 @@ import {CreateUserType,} from '../interfaces/Interfaces';
 
 const URL = process.env.REACT_APP_API;
 
-// finds a user by given sub and returns it
-const findUserBySub = async (sub: string) => {
-    const res = await fetch(URL + `/usersBySub/${sub}`);
-    return await res.json();
-}
-// todo will be of type string
 const getUserById = async (id: number) => {
-    const res = await fetch(URL + `/user/${id}`);
+    const res = await fetch(URL + `/users/${id}`);
     return await res.json();
 }
 // creates a single user
@@ -23,6 +17,6 @@ const createUser = async (data: CreateUserType) => {
     });
 }
 
-const API_USER_SERVICE = {findUserBySub, getUserById, createUser}
+const API_USER_SERVICE = {getUserById, createUser}
 
 export default API_USER_SERVICE;

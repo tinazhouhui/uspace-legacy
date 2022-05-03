@@ -25,7 +25,7 @@ export interface CommentType {
 export interface CreateCommentType {
   content: string;
   post_id: number;
-  user_id: number;
+  user_id: string;
 }
 
 export interface PostType {
@@ -69,6 +69,9 @@ export interface UserType {
   username: string;
   picture_url: string;
   sub: string;
+}
+
+export interface UserResponseType extends UserType {
   created_at: Date;
 }
 

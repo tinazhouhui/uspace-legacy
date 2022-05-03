@@ -44,7 +44,7 @@ const API_SPACE_SERVICE = {
     // SPACE COLLAB
     // creates a new user_space_role and returns it
     createUserSpaceRole: async (
-        user_id: number,
+        user_id: string,
         space_id: number,
         role_id: number
     ) => {

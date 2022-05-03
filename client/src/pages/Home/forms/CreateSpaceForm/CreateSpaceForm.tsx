@@ -50,18 +50,15 @@ function CreateSpaceForm(props: Incoming) {
       // check if user exists
       //todo add type on user
       if (user) {
-        // fetch user from db to get id //todo no need if ID = email
-        const foundUser = await API_USER_SERVICE.findUserBySub(user.sub!);
-        // create a m-m relationship using the user id, space id and 2 for creator
         //todo not necessary for owner
-        await API_SPACE_SERVICE.createUserSpaceRole(foundUser.id, newSpace.id, 2);
+        await API_SPACE_SERVICE.createUserSpaceRole(user.sub!, newSpace.id, 2);
         // add new userSpaceRole array and input new user
         newSpace.User_Space_Role = [
           {
             user: {
-              email: foundUser.email,
-              username: foundUser.username,
-              picture_url: foundUser.picture_url,
+              email: user.email!,
+              username: user.username,
+              picture_url: user.picture_url,
             },
           },
         ];

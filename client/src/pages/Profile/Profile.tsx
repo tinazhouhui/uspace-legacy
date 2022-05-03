@@ -4,7 +4,6 @@ import { UserType } from '../../interfaces/Interfaces';
 import Header from '../../components/Header/Header';
 import Loading from '../../components/Loading/Loading';
 import './Profile.scss';
-import API_USER_SERVICE from '../../services/apiUserService';
 
 const Profile = () => {
   const { user, isLoading } = useAuth0();
@@ -12,15 +11,14 @@ const Profile = () => {
   const [userPicture, setUserPicture] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
 
-  const fetchUser = async () => {
+  const fetchUser = async (user: UserType) => {
     // todo once logged in should be fetching user over and over again? or check state?
-    const fetchedUser: UserType = await API_USER_SERVICE.findUserBySub(user?.sub!);
-    setUserEmail(fetchedUser.email);
-    setUserPicture(fetchedUser.picture_url);
-    setUserName(fetchedUser.username);
+    setUserEmail(user.email);
+    setUserPicture(user.picture_url);
+    setUserName(user.username);
   };
 
-  if (!isLoading && user) fetchUser();
+  if (!isLoading && user) fetchUser(user as UserType);
 
   if (isLoading) {
     return (

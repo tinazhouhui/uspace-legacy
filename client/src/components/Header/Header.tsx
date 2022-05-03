@@ -24,12 +24,11 @@ function Header(props: Incoming) {
   const navigate = useNavigate();
 
   // check if current user is owner of current space
+  //todo refactor, do not need getUser
   const getUser = async () => {
     if (user) {
-      // get user by sub
-      const foundUser = await API_USER_SERVICE.findUserBySub(user.sub!);
       // check if user is owner
-      if (props.spaceOwnerId === foundUser.id) setIsOwner(true);
+      if (props.spaceOwnerId === user.sub) setIsOwner(true);
     }
   };
 
