@@ -1,13 +1,18 @@
-import SpaceWithCreatorType, {
-    CreateSpaceDataType,
-    PrismaError,
-    SpaceDataType,
-} from '../interfaces/Interfaces';
+import SpaceWithCreatorType, {CreateSpaceDataType, PrismaError, SpaceDataType,} from '../interfaces/Interfaces';
 
 const URL = process.env.REACT_APP_API;
 
 const API_SPACE_SERVICE = {
     // get all spaces
+    getSpaces: async (owner: string, page= 0) => {
+        try {
+            const spaces = await fetch(URL + `/spaces/${owner}/${page}`);
+            return await spaces.json()
+        } catch (err) {
+            console.error('Fetch error', err);
+        }
+    },
+
     // todo handle errors in api calls? throw error?
     getSpacesAndCreators: async (): Promise<SpaceWithCreatorType[]> => {
         const spaces = await fetch(URL + '/spacesAndCreators');

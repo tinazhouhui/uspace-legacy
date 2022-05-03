@@ -57,7 +57,7 @@ export const getAllSpaces: RequestHandler = async (req: Request, res: Response) 
         const page = +req.params.page
         const allSpaces = await spaceModel.getSpaces(owner, page);
         res.status(201);
-        res.send(allSpaces);
+        res.send({allSpaces});
     } catch (error) {
         res.status(500);
         res.send(JSON.stringify(error));
