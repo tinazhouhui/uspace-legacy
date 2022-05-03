@@ -13,7 +13,7 @@ import API_USER_SERVICE from '../../services/apiUserService';
 
 interface Incoming {
   setOpened?: Function;
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
 }
 
 function Header(props: Incoming) {

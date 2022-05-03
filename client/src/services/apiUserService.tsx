@@ -2,7 +2,7 @@ import {CreateUserType,} from '../interfaces/Interfaces';
 
 const URL = process.env.REACT_APP_API;
 
-const getUserById = async (id: number) => {
+const getUserById = async (id: string) => {
     const res = await fetch(URL + `/users/${id}`);
     return await res.json();
 }

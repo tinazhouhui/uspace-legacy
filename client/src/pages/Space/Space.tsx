@@ -18,7 +18,7 @@ function Space() {
   const spaceId = useParams().id; // returns id of current space
   const [posts, setPosts] = useState<PostType[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
-  const [spaceOwnerId, setSpaceOwnerId] = useState<number>();
+  const [spaceOwnerId, setSpaceOwnerId] = useState<string>();
   const [tags, setTags] = useState<string[]>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 

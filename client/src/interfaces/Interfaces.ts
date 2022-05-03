@@ -3,7 +3,7 @@ export interface UserSpaceRoleType {
     username: string;
     email: string;
     picture_url?: string;
-    id?: number;
+    id?: string;
   };
 }
 
@@ -19,7 +19,7 @@ export interface CommentType {
   content: string;
   created_at: string;
   post_id: number;
-  user_id: number;
+  user_id: string;
 }
 
 export interface CreateCommentType {
@@ -43,7 +43,7 @@ export interface CreatePostType {
   content: string;
   tags: string;
   title: string;
-  user_id: number;
+  user_id: string;
   space_id: number;
   created_at: Date;
 }

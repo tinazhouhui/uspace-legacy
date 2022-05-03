@@ -12,7 +12,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 interface Incoming {
   clickedPost: number;
   spaceData: SpaceDataType[];
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
   posts: PostType[];
   setPosts: Function;
 }

@@ -14,7 +14,7 @@ import API_COMMENT_SERVICE from '../../../../services/apiCommentService';
 interface Incoming {
   clickedPost: number;
   comments: CommentType[];
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
   postId: number;
   posts: PostType[];
   setPosts: Function;
