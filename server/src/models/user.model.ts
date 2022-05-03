@@ -26,7 +26,6 @@ export class UserModel {
 
     async getUser(id: string) {
         try {
-            console.log(id)
             const user = await prisma.user.findUnique({
                 where: {
                     sub: id,
