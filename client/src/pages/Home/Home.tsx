@@ -9,7 +9,6 @@ import API_USER_SERVICE from '../../services/apiUserService';
 
 
 function userExists(id: string) {
-    console.log('CHECK IF EXISTS')
     return API_USER_SERVICE.getUserById(id)
         .then((response) => {
             return !!response;
@@ -24,10 +23,6 @@ function Home() {
     const [userData, setUser] = useState<UserType | {}>({})
 
     useEffect(() => {
-        console.log('_________________')
-        console.log('loading', isLoading);
-        console.log('user', user);
-        console.log('authenticated', isAuthenticated);
         if (user) {
             if (!userExists(user.sub!)) {
                 const userData: CreateUserType = {
@@ -51,7 +46,6 @@ function Home() {
     }, [user])
 
 
-    //todo can be done using ? with one return
     if (isLoading) {
         return (
             <div className="main-loading">
