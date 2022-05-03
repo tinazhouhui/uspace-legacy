@@ -25,11 +25,16 @@ export const postUser: RequestHandler = async (req: Request, res: Response) => {
 export const getUser: RequestHandler = async (req: Request, res: Response) => {
     try {
         const findUser = await userModel.getUser(req.params.id);
-        res.status(201);
-        res.send(findUser);
+        if (findUser) {
+            res.status(201);
+            res.send(findUser);
+        } else {
+            res.status(404);
+            res.send({message: 'user not found'})
+        }
     } catch (error) {
         res.status(500);
-        res.send(JSON.stringify(error));
+        res.send({error});
     }
 };
 
