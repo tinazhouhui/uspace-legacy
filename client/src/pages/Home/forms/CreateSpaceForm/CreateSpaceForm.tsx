@@ -80,7 +80,7 @@ function CreateSpaceForm(props: Incoming) {
 
   // deep clone given space and add new space
   const cloneSpacesAndAddNewSpace = (
-    spaces: SpaceWithCreatorType[],
+    spaces: any,
     newSpace: SpaceDataType
   ) => {
     // deep clone given spaces
