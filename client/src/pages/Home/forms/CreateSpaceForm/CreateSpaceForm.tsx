@@ -3,14 +3,12 @@ import '../../../Space/forms/CreateEntryForm/CreateEntryForm.scss';
 import { TextInput, Textarea } from '@mantine/core';
 import DOMPurify from 'dompurify';
 import SpaceWithCreatorType, {
-  PrismaError,
   SpaceDataType,
 } from '../../../../interfaces/Interfaces';
-import { useAuth0 } from '@auth0/auth0-react';
 import _ from 'lodash';
 import { useNavigate } from 'react-router';
-import API_USER_SERVICE from '../../../../services/apiUserService';
 import API_SPACE_SERVICE from '../../../../services/apiSpaceService';
+import {useUser} from '../../Home';
 
 interface Incoming {
   setOpened: Function;
@@ -21,9 +19,10 @@ interface Incoming {
 function CreateSpaceForm(props: Incoming) {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const { user } = useAuth0();
+  const user = useUser();
   const navigate = useNavigate();
   const [spaceNameTakenError, setSpaceNameTakenError] = useState<string>();
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,22 +30,23 @@ function CreateSpaceForm(props: Incoming) {
     const spaceData = {
       name: DOMPurify.sanitize(name),
       description: DOMPurify.sanitize(description),
+      owner: user.sub
     };
 
     // create new space
-    const newSpace: SpaceDataType | PrismaError = await API_SPACE_SERVICE.createSpace(
+    const newSpace = await API_SPACE_SERVICE.createSpace(
       spaceData
     );
 
     // check for unique space name constraint
-    if ('code' in newSpace) {
+    if (newSpace && 'code' in newSpace) {
       setSpaceNameTakenError(
         'This Space name is already taken, please choose a different one!'
       );
       return;
     }
 
-    if ('id' in newSpace) {
+    if (newSpace && 'id' in newSpace) {
       // check if user exists
       //todo add type on user
       if (user) {
@@ -97,7 +97,7 @@ function CreateSpaceForm(props: Incoming) {
           required
           value={name}
           error={spaceNameTakenError && spaceNameTakenError}
-          onChange={(event) => setName(event.currentTarget.value)}
+          onChange={(event) => setName(event.currentTarget.value!)}
         />
         <label>Description:</label>
         <Textarea

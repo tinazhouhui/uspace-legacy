@@ -21,15 +21,19 @@ const API_SPACE_SERVICE = {
 
     // creates a new space and returns it
     createSpace: async (spaceData: CreateSpaceDataType) => {
-        const res = await fetch(URL + '/spaces', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(spaceData),
-        });
-        const newSpace: SpaceDataType | PrismaError = await res.json();
-        return newSpace;
+        try {
+            const res = await fetch(URL + '/spaces', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(spaceData),
+            });
+            const newSpace: SpaceDataType | PrismaError = await res.json();
+            return newSpace;
+        } catch (e) {
+            console.error('Fetch error', e)
+        }
     },
 
     //delete single space and posts/comments inside

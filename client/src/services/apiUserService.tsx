@@ -28,7 +28,7 @@ const createUser = async (data: CreateUserType) => {
 
         return {message: 'User successfully created'}
     } catch (e) {
-        console.error(e)
+        console.error('Fetch error', e)
     }
 }
 

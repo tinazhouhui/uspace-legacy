@@ -3,7 +3,7 @@ import Loading from '../../components/Loading/Loading';
 import {useAuth0} from '@auth0/auth0-react';
 import Spaces from './components/Spaces/Spaces';
 import {CreateUserType, UserType} from '../../interfaces/Interfaces';
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 import Welcome from './components/Welcome/Welcome';
 import API_USER_SERVICE from '../../services/apiUserService';
 
@@ -15,7 +15,15 @@ function userExists(id: string) {
         })
 }
 
-const UserContext = createContext<UserType | {}>({})
+export const UserContext = createContext<UserType | {}>({})
+export function useUser() {
+    const context = useContext(UserContext);
+    if (Object.keys(context).length === 0) {
+        throw new Error('useUser must be used within a UserContext provider')
+    }
+
+    return context as UserType
+}
 
 function Home() {
     const {isLoading, isAuthenticated, user} = useAuth0();
@@ -34,12 +42,6 @@ function Home() {
                 };
 
                 API_USER_SERVICE.createUser(userData)
-                    .then((data) => {
-                        console.log(data)
-                    })
-                    .catch((err) => {
-                        console.error(err)
-                    })
             }
             setUser(user);
         }
