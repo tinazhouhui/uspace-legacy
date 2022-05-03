@@ -15,7 +15,7 @@ interface Incoming {
     setOpened: Function;
 }
 
-const fetchSpaces = async (owner: string, pages: number = 0) => {
+const fetchSpaces = async (owner: string, pages: number) => {
     return await API_SPACE_SERVICE.getSpaces(owner, pages)
 }
 
@@ -27,22 +27,16 @@ function getAllSpaceNames (spaces: any[]) {
     }, []);
 }
 
+export const useSpaces = (owner: string, pages = 0) => useQuery('spaces', () => {
+        return fetchSpaces(owner, pages)
+    })
+
 function Spaces(props: Incoming) {
 
     const [allSpaces, setAllSpaces] = useState<SpaceWithCreatorType[]>([]);
     const [filterValue, setFilterValue] = useState<string>('');
 
-    const {data, status} = useQuery('spaces', () => {
-        return fetchSpaces('google-oauth2|112871388917455861681')
-    })
-
-
-    // filter out my spaces
-    const mySpaces = (data: SpaceWithCreatorType[]) => {
-        return data.filter((space) => {
-            return space.User_Space_Role[0].user.email === 'asdfsadf';
-        });
-    };
+    const {data, status} = useSpaces('google-oauth2|112871388917455861681')
 
     // filter found spaces
     // TODO: Fix filter with same name spaces
@@ -98,8 +92,8 @@ function Spaces(props: Incoming) {
                             <div className="spaces-row-title">Your Spaces</div>
                             <div className="spaces-wrapper">
                                 <SpacesList
-                                    spaces={allSpaces && mySpaces(allSpaces)}
-                                    allSpaces={allSpaces}
+                                    spaces={data.allSpaces[0]}
+                                    allSpaces={data.allSpaces}
                                     setAllSpaces={setAllSpaces}
                                 />
                             </div>
@@ -109,8 +103,8 @@ function Spaces(props: Incoming) {
                         <div className="spaces-row-title">All Spaces</div>
                         <div className="spaces-wrapper">
                             <SpacesList
-                                spaces={allSpaces}
-                                allSpaces={allSpaces}
+                                spaces={data.allSpaces[1]}
+                                allSpaces={data.allSpaces}
                                 setAllSpaces={setAllSpaces}
                             />
                         </div>

@@ -25,7 +25,7 @@ function SpacesList(props: Incoming) {
     const clonedSpaces = _.cloneDeep(props.allSpaces);
     // find index of deleted space in state
     const indexOfDeletedSpace = clonedSpaces.findIndex(
-      (arrSpace) => arrSpace.id === id
+      (arrSpace) => arrSpace.space_id === id
     );
     // delete space from state
     clonedSpaces.splice(indexOfDeletedSpace, 1);
@@ -34,18 +34,19 @@ function SpacesList(props: Incoming) {
   };
 
   const spaceItem = props.spaces.map((space) => {
-    const { username, picture_url } = space.User_Space_Role[0].user;
+    console.log(space)
+    // const { username, picture_url } = space.User_Space_Role[0].user;
     const { name } = space;
-    const { id } = space;
+    const { space_id } = space;
     let isOwner = false;
 
     // check if user exists and if it's name matches the space creators name
-    if (!isLoading && user && user.nickname === username) {
-      isOwner = true;
-    }
+    // if (!isLoading && user && user.nickname === username) {
+    //   isOwner = true;
+    // }
 
     return (
-      <div className="space-item-wrapper" key={id}>
+      <div className="space-item-wrapper" key={space_id}>
         {isOwner && (
           <Menu placement="center" position="top">
             <Menu.Label>Settings</Menu.Label>
@@ -53,16 +54,16 @@ function SpacesList(props: Incoming) {
             <Menu.Item
               color="red"
               icon={<Trash size={14} />}
-              onClick={() => deleteSpace(id)}
+              onClick={() => deleteSpace(space_id)}
             >
               Delete this Space
             </Menu.Item>
           </Menu>
         )}
-        <Link to={`/spaces/${id}`} className="spaces-item">
-          <img src={picture_url} alt="Space Icon" />
+        <Link to={`/spaces/${space_id}`} className="spaces-item">
+          {/*<img src={picture_url} alt="Space Icon" />*/}
           <div className="spaces-item-name">{name}</div>
-          <div className="spaces-item-creator">{username}</div>
+          {/*<div className="spaces-item-creator">{username}</div>*/}
         </Link>
       </div>
     );

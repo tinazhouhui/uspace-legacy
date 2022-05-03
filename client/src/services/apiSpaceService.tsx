@@ -4,7 +4,7 @@ const URL = process.env.REACT_APP_API;
 
 const API_SPACE_SERVICE = {
     // get all spaces
-    getSpaces: async (owner: string, page= 0) => {
+    getSpaces: async (owner: string, page: number) => {
         try {
             const spaces = await fetch(URL + `/spaces/${owner}/${page}`);
             return await spaces.json()

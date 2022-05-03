@@ -8,7 +8,7 @@ export interface UserSpaceRoleType {
 }
 
 export default interface SpaceWithCreatorType {
-  id: number;
+  space_id: number;
   name: string;
   created_at: Date;
   User_Space_Role: UserSpaceRoleType[];
