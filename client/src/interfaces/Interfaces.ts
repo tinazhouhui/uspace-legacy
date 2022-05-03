@@ -55,6 +55,7 @@ export interface SpaceDataType {
   id: number;
   name: string;
   User_Space_Role: UserSpaceRoleType[];
+  space_id?: string;
 }
 
 export interface CreateSpaceDataType {

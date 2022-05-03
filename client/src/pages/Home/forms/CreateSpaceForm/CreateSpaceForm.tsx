@@ -8,7 +8,8 @@ import SpaceWithCreatorType, {
 import _ from 'lodash';
 import { useNavigate } from 'react-router';
 import API_SPACE_SERVICE from '../../../../services/apiSpaceService';
-import {useUser} from '../../Home';
+import {useUser} from '../../../../App';
+
 
 interface Incoming {
   setOpened: Function;

@@ -15,9 +15,9 @@ interface Incoming {
     setOpened: Function;
 }
 
-const fetchSpaces = async (owner: string, pages: number) => {
-    return await API_SPACE_SERVICE.getSpaces(owner, pages)
-}
+// const fetchSpaces = async (owner: string, pages: number) => {
+//     return await API_SPACE_SERVICE.getSpaces(owner, pages)
+// }
 
 function getAllSpaceNames (spaces: any[]) {
     const allSpaces = [...spaces[0], ...spaces[1]]
@@ -28,7 +28,7 @@ function getAllSpaceNames (spaces: any[]) {
 }
 
 export const useSpaces = (owner: string, pages = 0) => useQuery('spaces', () => {
-        return fetchSpaces(owner, pages)
+        return API_SPACE_SERVICE.getSpaces(owner, pages)
     })
 
 function Spaces(props: Incoming) {
