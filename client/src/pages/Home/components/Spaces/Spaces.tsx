@@ -9,6 +9,8 @@ import CreateSpaceForm from '../../forms/CreateSpaceForm/CreateSpaceForm';
 import {MoodSad, Search} from 'tabler-icons-react';
 import API_SPACE_SERVICE from '../../../../services/apiSpaceService';
 import {useQuery} from 'react-query';
+import {useUser} from '../../../../App';
+// import {useUser} from '../../../../App';
 
 interface Incoming {
     opened: boolean;
@@ -36,7 +38,9 @@ function Spaces(props: Incoming) {
     const [allSpaces, setAllSpaces] = useState<SpaceWithCreatorType[]>([]);
     const [filterValue, setFilterValue] = useState<string>('');
 
-    const {data, status} = useSpaces('google-oauth2|112871388917455861681')
+    const user = useUser();
+
+    const {data, status} = useSpaces(user.sub!)
 
     // filter found spaces
     // TODO: Fix filter with same name spaces
@@ -99,16 +103,16 @@ function Spaces(props: Incoming) {
                             </div>
                         </>
                     </div>
-                    <div className="spaces-row">
-                        <div className="spaces-row-title">All Spaces</div>
-                        <div className="spaces-wrapper">
-                            <SpacesList
-                                spaces={data.allSpaces[1]}
-                                allSpaces={data.allSpaces}
-                                setAllSpaces={setAllSpaces}
-                            />
-                        </div>
-                    </div>
+                    {/*<div className="spaces-row">*/}
+                    {/*    <div className="spaces-row-title">All Spaces</div>*/}
+                    {/*    <div className="spaces-wrapper">*/}
+                    {/*        <SpacesList*/}
+                    {/*            spaces={data.allSpaces[1]}*/}
+                    {/*            allSpaces={data.allSpaces}*/}
+                    {/*            setAllSpaces={setAllSpaces}*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
             <Modal

@@ -21,21 +21,15 @@ function userExists(id: string) {
         })
 }
 
-export const UserContext = createContext<UserType | {}>({})
+export const UserContext = createContext<UserType>({} as UserType)
 
 export function useUser() {
-    const context = useContext(UserContext);
-    if (Object.keys(context).length === 0) {
-        throw new Error('useUser must be used within a UserContext provider')
-    }
-
-    return context as UserType
+    return useContext(UserContext);
 }
-
 
 function App() {
     const {isLoading, isAuthenticated, user} = useAuth0();
-    const [userData, setUser] = useState<UserType | {}>({})
+    const [userData, setUser] = useState<UserType>({} as UserType)
 
     useEffect(() => {
         if (user) {
@@ -50,19 +44,34 @@ function App() {
 
                 API_USER_SERVICE.createUser(userData)
             }
-            setUser(user);
+            setUser(user as UserType);
         }
     }, [user])
     return (
         <QueryClientProvider client={queryClient}>
-            <UserContext.Provider value={userData}>
-                <Routes>
-                    <Route path="/" element={<Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>}/>
-                    <Route path="/spaces" element={<Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>}/>
-                    <Route path="/spaces/:id" element={<Space/>}/>
-                    <Route path="/profile/" element={<Profile/>}/>
-                </Routes>
-            </UserContext.Provider>
+            <Routes>
+                <Route path="/" element={
+                    <UserContext.Provider value={userData}>
+                        <Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>
+                    </UserContext.Provider>
+                }/>
+                <Route path="/spaces" element={
+                    <UserContext.Provider value={userData}>
+                        <Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>
+                    </UserContext.Provider>
+                }/>
+                <Route path="/spaces/:id" element={
+                    <UserContext.Provider value={userData}>
+                        <Space/>
+                    </UserContext.Provider>
+                }/>
+                <Route path="/profile/" element={
+                    <UserContext.Provider value={userData}>
+                        <Profile/>
+                    </UserContext.Provider>
+                }/>
+            </Routes>
+
         </QueryClientProvider>
     );
 }
