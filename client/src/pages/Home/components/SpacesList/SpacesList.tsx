@@ -20,7 +20,7 @@ function SpacesList(props: Incoming) {
     const [spaceList, setSpaceList] = useState<JSX.Element[]>([])
 
     const deleteSpace = async (id: number) => {
-        await API_SPACE_SERVICE.deleteUserSpaceRoleBySpaceId(id);
+        // await API_SPACE_SERVICE.deleteUserSpaceRoleBySpaceId(id);
         await API_SPACE_SERVICE.deleteSpaceById(id);
 
         // deep clone spaces

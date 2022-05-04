@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import './Header.scss';
 import logo from '../../assets/img/logo-uspace.svg';
 import avatarDude from '../../assets/img/avatar-dude.jpg';
@@ -9,30 +9,26 @@ import { useLocation } from 'react-router';
 import { Menu } from '@mantine/core';
 import { Logout, User } from 'tabler-icons-react';
 import { useNavigate } from "react-router-dom";
-import API_USER_SERVICE from '../../services/apiUserService';
 
 interface Incoming {
   setOpened?: Function;
   spaceOwnerId?: string;
+  userId?: string;
 }
 
 function Header(props: Incoming) {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   const path = useLocation().pathname;
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const { logout } = useAuth0();
   const navigate = useNavigate();
 
-  // check if current user is owner of current space
-  //todo refactor, do not need getUser
-  const getUser = async () => {
-    if (user) {
-      // check if user is owner
-      if (props.spaceOwnerId === user.sub) setIsOwner(true);
-    }
-  };
+  useEffect(() => {
 
-  if (!isLoading) getUser();
+    if (props.userId === props.spaceOwnerId) {
+      setIsOwner(true);
+    }
+  }, [props.spaceOwnerId])
 
   const logOut = () => {
     logout({

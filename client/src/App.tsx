@@ -24,7 +24,10 @@ function userExists(id: string) {
 export const UserContext = createContext<UserType>({} as UserType)
 
 export function useUser() {
-    return useContext(UserContext);
+    const context = useContext(UserContext);
+    if (Object.keys(context).length === 0) {
+    }
+    return context;
 }
 
 function App() {
