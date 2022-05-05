@@ -3,12 +3,12 @@ export interface UserSpaceRoleType {
     username: string;
     email: string;
     picture_url?: string;
-    id?: number;
+    id?: string;
   };
 }
 
 export default interface SpaceWithCreatorType {
-  id: number;
+  space_id: number;
   name: string;
   created_at: Date;
   User_Space_Role: UserSpaceRoleType[];
@@ -19,17 +19,17 @@ export interface CommentType {
   content: string;
   created_at: string;
   post_id: number;
-  user_id: number;
+  user_id: string;
 }
 
 export interface CreateCommentType {
   content: string;
   post_id: number;
-  user_id: number;
+  user_id: string;
 }
 
 export interface PostType {
-  id: number;
+  post_id: number;
   content: string;
   tags: string;
   title: string;
@@ -37,13 +37,14 @@ export interface PostType {
   space_id: number;
   created_at: Date;
   Comment: CommentType[];
+  id: number;
 }
 
 export interface CreatePostType {
   content: string;
   tags: string;
   title: string;
-  user_id: number;
+  user_id: string;
   space_id: number;
   created_at: Date;
 }
@@ -55,6 +56,7 @@ export interface SpaceDataType {
   id: number;
   name: string;
   User_Space_Role: UserSpaceRoleType[];
+  space_id?: string;
 }
 
 export interface CreateSpaceDataType {
@@ -69,6 +71,9 @@ export interface UserType {
   username: string;
   picture_url: string;
   sub: string;
+}
+
+export interface UserResponseType extends UserType {
   created_at: Date;
 }
 

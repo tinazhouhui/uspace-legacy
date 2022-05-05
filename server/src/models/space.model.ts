@@ -42,6 +42,7 @@ export class SpaceModel {
           },
           include: {
             post: true,
+            user: true,
             space_colab: true,
           },
         });
@@ -59,6 +60,7 @@ export class SpaceModel {
           },
           include: {
             post: true,
+            user: true,
             space_colab: true,
           }
         });

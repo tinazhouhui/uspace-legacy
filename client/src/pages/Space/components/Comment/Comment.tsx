@@ -6,7 +6,7 @@ import API_USER_SERVICE from '../../../../services/apiUserService';
 
 interface Incoming {
   comment: CommentType;
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
 }
 
 function Comment(props: Incoming) {

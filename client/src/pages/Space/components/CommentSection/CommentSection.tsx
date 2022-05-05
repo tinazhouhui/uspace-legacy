@@ -14,7 +14,7 @@ import API_COMMENT_SERVICE from '../../../../services/apiCommentService';
 interface Incoming {
   clickedPost: number;
   comments: CommentType[];
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
   postId: number;
   posts: PostType[];
   setPosts: Function;
@@ -30,14 +30,6 @@ function CommentSection({clickedPost, comments, spaceOwnerId, postId, posts, set
     setNewComment(event.currentTarget.value);
   };
 
-  // todo probably not needed as we will be using the user sub for id
-  const fetchUser = async () => {
-    if (user) {
-      const data = await API_USER_SERVICE.findUserBySub(user.sub!);
-      return data.id;
-    }
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const saveComment = DOMPurify.sanitize(newComment);
@@ -46,10 +38,10 @@ function CommentSection({clickedPost, comments, spaceOwnerId, postId, posts, set
     // prevent users from submitting whitespace and empty forms
     if (!saveComment.length || saveComment.trim() === '') return; // prevent empty submits
 
-    if (postId) {
+    if (postId && user) {
       const commentData = {
         content: saveComment,
-        user_id: await fetchUser(),
+        user_id: user.sub!,
         post_id: postId,
       };
 

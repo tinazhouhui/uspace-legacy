@@ -8,35 +8,29 @@ import API_POST_SERVICE from '../../../../services/apiPostService';
 import _ from 'lodash';
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import API_USER_SERVICE from '../../../../services/apiUserService';
 
 interface Incoming {
   clickedPost: number;
-  spaceData: SpaceDataType[];
-  spaceOwnerId?: number;
-  posts: PostType[];
+  spaceData: any;
+  spaceOwnerId?: string;
+  posts: PostType;
   setPosts: Function;
+  user: any;
 }
 
 function EntryDetail(props: Incoming) {
-  const post = props.posts[props.clickedPost];
-  const username = props.spaceData[0]?.User_Space_Role[0]?.user?.username;
-  const picture_url = props.spaceData[0]?.User_Space_Role[0]?.user?.picture_url;
-  const comments = props.posts[props.clickedPost]?.Comment;
-  const { user, isLoading } = useAuth0();
-  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const post = props.posts
+  const mySpace= props.spaceData[0]
+  const username = mySpace.user.username;
+  const picture_url = mySpace.user.picture_url;
+  // const comments = props.posts[props.clickedPost]?.Comment;
 
-  // check if current user is owner of current space
-  const getUser = async () => {
-    if (user) {
-      // get user by sub
-      const foundUser = await API_USER_SERVICE.findUserBySub(user.sub!);
-      // check if user is owner
-      if (props.spaceOwnerId === foundUser.id) setIsOwner(true);
-    }
-  };
+   // return empty if no posts exist
+  if (!post) {
+    return <></>;
+  }
 
-  if (!isLoading) getUser();
+  const isOwner = props.user.sub === post.user_id
 
   let date = '';
   if (post) {
@@ -48,25 +42,23 @@ function EntryDetail(props: Incoming) {
       month: 'short',
     });
   }
+  //
 
-  // return empty if no posts exist
-  if (!post) {
-    return <></>;
-  }
 
   const deletePost = async () => {
     // delete post from db
-    await API_POST_SERVICE.deletePostById(post.id);
-    // deep clone posts of space
-    const clonedPosts = _.cloneDeep(props.posts);
-    // find index of deleted post in state
-    const indexOfDeletedPost = clonedPosts.findIndex(
-      (arrPost) => arrPost.id === post.id
-    );
-    // delete post from state
-    clonedPosts.splice(indexOfDeletedPost, 1);
-    // set posts without deleted one to state
-    props.setPosts(clonedPosts);
+    const deleted = await API_POST_SERVICE.deletePostById(post.post_id);
+
+    props.setPosts((prev: any) => {
+      console.log(prev)
+      const clonedPosts = _.cloneDeep(prev);
+      const indexOfDeletedPost = clonedPosts.findIndex(
+          (arrPost: any) => arrPost.post_id === deleted.post_id
+      );
+      clonedPosts.splice(indexOfDeletedPost, 1);
+
+      return clonedPosts;
+    })
   };
 
   const editPost = () => {
@@ -130,7 +122,6 @@ function EntryDetail(props: Incoming) {
               {post &&
                 // slice off last whitespace and split tags into array
                 post.tags
-                  .slice(0, -1)
                   .split(',')
                   .map((tag) => {
                     return (
@@ -142,19 +133,19 @@ function EntryDetail(props: Incoming) {
             </div>
           </div>
         )}
-      <div className="entry-detail-comments">
-        <div className="entry-detail-comments-title">Comments</div>
-        <div className="entry-detail-comments-wrapper">
-          <CommentSection
-            comments={comments}
-            postId={post.id}
-            posts={props.posts}
-            setPosts={props.setPosts}
-            clickedPost={props.clickedPost}
-            spaceOwnerId={props.spaceOwnerId}
-          />
-        </div>
-      </div>
+      {/*<div className="entry-detail-comments">*/}
+      {/*  <div className="entry-detail-comments-title">Comments</div>*/}
+      {/*  <div className="entry-detail-comments-wrapper">*/}
+      {/*    <CommentSection*/}
+      {/*      comments={comments}*/}
+      {/*      postId={post.id}*/}
+      {/*      posts={props.posts}*/}
+      {/*      setPosts={props.setPosts}*/}
+      {/*      clickedPost={props.clickedPost}*/}
+      {/*      spaceOwnerId={props.spaceOwnerId}*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 }

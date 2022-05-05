@@ -93,7 +93,7 @@ const router = Router();
  *       "201":
  *         description: Created
  */
-router.get('/spaces/:page', getAllSpaces);
+router.get('/spaces/:owner/:page', getAllSpaces);
 
 /**
  * @swagger

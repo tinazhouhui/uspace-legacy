@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import './Header.scss';
 import logo from '../../assets/img/logo-uspace.svg';
 import avatarDude from '../../assets/img/avatar-dude.jpg';
@@ -9,31 +9,29 @@ import { useLocation } from 'react-router';
 import { Menu } from '@mantine/core';
 import { Logout, User } from 'tabler-icons-react';
 import { useNavigate } from "react-router-dom";
-import API_USER_SERVICE from '../../services/apiUserService';
+import {useUser} from '../../App';
 
 interface Incoming {
   setOpened?: Function;
-  spaceOwnerId?: number;
+  spaceOwnerId?: string;
+  userId?: string;
 }
 
 function Header(props: Incoming) {
-  const { user, isAuthenticated, isLoading } = useAuth0();
   const path = useLocation().pathname;
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const { logout } = useAuth0();
   const navigate = useNavigate();
 
-  // check if current user is owner of current space
-  const getUser = async () => {
-    if (user) {
-      // get user by sub
-      const foundUser = await API_USER_SERVICE.findUserBySub(user.sub!);
-      // check if user is owner
-      if (props.spaceOwnerId === foundUser.id) setIsOwner(true);
-    }
-  };
+  const userData = useUser()
+  const user = userData.user
 
-  if (!isLoading) getUser();
+  useEffect(() => {
+
+    if (props.userId === props.spaceOwnerId) {
+      setIsOwner(true);
+    }
+  }, [props.spaceOwnerId])
 
   const logOut = () => {
     logout({
@@ -42,7 +40,7 @@ function Header(props: Incoming) {
   };
 
   const renderButton = () => {
-    if (isAuthenticated) {
+    if (userData.isAuthenticated) {
       return (
         <>
           {path === '/' || path === '/spaces' ? (
