@@ -11,7 +11,6 @@ function Home() {
     const [opened, setOpened] = useState<boolean>(false);
 
     const user = useUser()
-    console.log(user);
 
     if (user.isLoading) {
         return (
