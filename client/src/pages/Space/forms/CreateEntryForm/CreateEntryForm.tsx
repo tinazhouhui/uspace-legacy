@@ -11,7 +11,7 @@ import API_POST_SERVICE from '../../../../services/apiPostService';
 interface Incoming {
   setOpened: Function;
   space_id?: number;
-  user_id?: number;
+  user_id?: string;
   setPosts: Function;
 }
 
