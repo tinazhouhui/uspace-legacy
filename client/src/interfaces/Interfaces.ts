@@ -29,7 +29,7 @@ export interface CreateCommentType {
 }
 
 export interface PostType {
-  id: number;
+  post_id: number;
   content: string;
   tags: string;
   title: string;
@@ -37,6 +37,7 @@ export interface PostType {
   space_id: number;
   created_at: Date;
   Comment: CommentType[];
+  id: number;
 }
 
 export interface CreatePostType {

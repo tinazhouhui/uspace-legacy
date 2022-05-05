@@ -9,6 +9,7 @@ import { useLocation } from 'react-router';
 import { Menu } from '@mantine/core';
 import { Logout, User } from 'tabler-icons-react';
 import { useNavigate } from "react-router-dom";
+import {useUser} from '../../App';
 
 interface Incoming {
   setOpened?: Function;
@@ -17,11 +18,13 @@ interface Incoming {
 }
 
 function Header(props: Incoming) {
-  const { user, isAuthenticated } = useAuth0();
   const path = useLocation().pathname;
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const { logout } = useAuth0();
   const navigate = useNavigate();
+
+  const userData = useUser()
+  const user = userData.user
 
   useEffect(() => {
 
@@ -37,7 +40,7 @@ function Header(props: Incoming) {
   };
 
   const renderButton = () => {
-    if (isAuthenticated) {
+    if (userData.isAuthenticated) {
       return (
         <>
           {path === '/' || path === '/spaces' ? (

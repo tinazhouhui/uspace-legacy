@@ -29,7 +29,6 @@ function Space() {
         const all = [...data?.allSpaces[0], ...data?.allSpaces[1]]
         return all.filter(space => space.space_id === parseInt(spaceId!))
     }
-    console.log(getMySpace())
 
     const mySpace = getMySpace();
 

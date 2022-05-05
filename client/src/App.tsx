@@ -21,7 +21,7 @@ function userExists(id: string) {
         })
 }
 
-export const UserContext = createContext<UserType>({} as UserType)
+export const UserContext = createContext<any>({})
 
 export function useUser() {
     const context = useContext(UserContext);
@@ -32,7 +32,7 @@ export function useUser() {
 
 function App() {
     const {isLoading, isAuthenticated, user} = useAuth0();
-    const [userData, setUser] = useState<UserType>({} as UserType)
+    const [userData, setUser] = useState<any>({})
 
     useEffect(() => {
         if (user) {
@@ -47,7 +47,7 @@ function App() {
 
                 API_USER_SERVICE.createUser(userData)
             }
-            setUser(user as UserType);
+            setUser({user, isLoading, isAuthenticated});
         }
     }, [user])
     return (
@@ -55,12 +55,12 @@ function App() {
             <Routes>
                 <Route path="/" element={
                     <UserContext.Provider value={userData}>
-                        <Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>
+                        <Home/>
                     </UserContext.Provider>
                 }/>
                 <Route path="/spaces" element={
                     <UserContext.Provider value={userData}>
-                        <Home isAuthenticated={isAuthenticated} isLoading={isLoading}/>
+                        <Home/>
                     </UserContext.Provider>
                 }/>
                 <Route path="/spaces/:id" element={

@@ -51,19 +51,6 @@ function CreateSpaceForm(props: Incoming) {
       // check if user exists
       //todo add type on user
       if (user) {
-        //todo not necessary for owner
-        await API_SPACE_SERVICE.createUserSpaceRole(user.sub!, newSpace.id, 2);
-        // add new userSpaceRole array and input new user
-        newSpace.User_Space_Role = [
-          {
-            user: {
-              email: user.email!,
-              username: user.username,
-              picture_url: user.picture_url,
-            },
-          },
-        ];
-
         // overwrite posts state with the cloned posts incl. the new comment
         props.setAllSpaces(
             //TODO can be using a callback

@@ -4,17 +4,16 @@ import Spaces from './components/Spaces/Spaces';
 
 import {useState} from 'react';
 import Welcome from './components/Welcome/Welcome';
+import {useUser} from '../../App';
 
 
-interface IProps {
-    isLoading: boolean,
-    isAuthenticated: boolean
-}
-
-function Home({isLoading, isAuthenticated} : IProps) {
+function Home() {
     const [opened, setOpened] = useState<boolean>(false);
 
-    if (isLoading) {
+    const user = useUser()
+    console.log(user);
+
+    if (user.isLoading) {
         return (
             <div className="main-loading">
                 <Loading/>
@@ -25,8 +24,7 @@ function Home({isLoading, isAuthenticated} : IProps) {
     return (
         <>
             <Header setOpened={setOpened}/>
-
-            {isAuthenticated ? (
+            {user.isAuthenticated ? (
                 <Spaces opened={opened} setOpened={setOpened}/>
             ) : (
                 <Welcome/>

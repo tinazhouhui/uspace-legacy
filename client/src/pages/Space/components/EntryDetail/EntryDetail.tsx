@@ -46,19 +46,19 @@ function EntryDetail(props: Incoming) {
 
 
   const deletePost = async () => {
-    // // delete post from db
-    // await API_POST_SERVICE.deletePostById(post.id);
-    // // deep clone posts of space
-    // const clonedPosts = _.cloneDeep(props.posts);
-    // // find index of deleted post in state
-    // const indexOfDeletedPost = clonedPosts.findIndex(
-    //   (arrPost) => arrPost.id === post.id
-    // );
-    // // delete post from state
-    // clonedPosts.splice(indexOfDeletedPost, 1);
-    // // set posts without deleted one to state
-    // props.setPosts(clonedPosts);
-    console.log('post deleted', post);
+    // delete post from db
+    const deleted = await API_POST_SERVICE.deletePostById(post.post_id);
+
+    props.setPosts((prev: any) => {
+      console.log(prev)
+      const clonedPosts = _.cloneDeep(prev);
+      const indexOfDeletedPost = clonedPosts.findIndex(
+          (arrPost: any) => arrPost.post_id === deleted.post_id
+      );
+      clonedPosts.splice(indexOfDeletedPost, 1);
+
+      return clonedPosts;
+    })
   };
 
   const editPost = () => {
@@ -122,7 +122,6 @@ function EntryDetail(props: Incoming) {
               {post &&
                 // slice off last whitespace and split tags into array
                 post.tags
-                  .slice(0, -1)
                   .split(',')
                   .map((tag) => {
                     return (

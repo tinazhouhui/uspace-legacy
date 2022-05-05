@@ -16,10 +16,6 @@ interface Incoming {
     setOpened: Function;
 }
 
-const fetchSpaces = async (owner: string, pages: number) => {
-    return await API_SPACE_SERVICE.getSpaces(owner, pages)
-}
-
 function getAllSpaceNames(spaces: any[]) {
     const allSpaces = [...spaces[0], ...spaces[1]]
     return allSpaces.reduce((acc, prev) => {
@@ -36,16 +32,10 @@ function Spaces(props: Incoming) {
 
     const [allSpaces, setAllSpaces] = useState<SpaceWithCreatorType[]>([]);
     const [filterValue, setFilterValue] = useState<string>('');
-    // const [data, setData] = useState<any>({})
 
     const user = useUser();
     // todo how to do this with react query
     const {data, status} = useSpaces(user.sub!)
-
-    // useEffect(() => {
-    //     API_SPACE_SERVICE.getSpaces(user.sub, 0)
-    //         .then((data) => setData(data));
-    // }, [user])
 
     // filter found spaces
     // TODO: Fix filter with same name spaces
